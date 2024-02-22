@@ -1,0 +1,79 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Worship song index</title>
+    <style>
+      body { font-family: Helvetica, Ubuntu, Roboto, Calibri, sans-serif; }
+      header, section, footer { padding: 0.3rem 1rem; }
+      header, footer { background-color: #cccccc; }
+      footer { position: static; bottom: 0.3rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Worship song index</h1>
+    </header>
+    <main>
+      <section>
+        <label for="search">Title and author search</label>
+        <input id="search" autofocus
+               placeholder="Start typing a title to filter">
+      </section>
+      <section id="template-container">Loading...</section> 
+    </main>
+    <script id="template" type="x-tmpl-mustache">
+        <ul>
+        {{#songs}}
+          <li class="song">
+            <a href="/song-lyrics/{{ . }}" target="_blank">
+              {{ . }}
+            </a>
+          </li>
+        {{/songs}}
+        </ul>
+    </script>
+    <script src="https://unpkg.com/mustache@latest"></script> 
+    <script type="text/javascript">
+      function renderList() {
+        fetch('/index.json')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            const template = document.getElementById('template').innerHTML;
+            const rendered = Mustache.render(template, data);
+            document.getElementById('template-container').innerHTML = rendered;
+          })
+          .catch(error => {
+            console.error('Fetch error:', error);
+          });
+      }
+     
+      function filter(ev) {
+        let title = ev.target.value.toLowerCase();
+        console.info('Filtering list by '+title);
+        document.querySelector('.song').setAttribute('src', `/song-lyrics/${title}`);
+        document.querySelectorAll('.song').forEach(function(d) {
+          if (d.innerText.toLowerCase().indexOf(title) == -1) {
+            d.style.display = 'none';
+          } else {
+            d.style.display = 'block';
+          }
+        }); 
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderList();
+
+        const search = document.getElementById("search");
+        search.addEventListener("input", filter);
+      });
+    </script>
+  </body>
+</html>
+
