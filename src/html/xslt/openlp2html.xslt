@@ -5,7 +5,6 @@
   Convert OpenLP song export format to HTML for previewing.
 -->
 <xsl:stylesheet version="1.0" 
-  xmlns="http://openlyrics.info/namespace/2009/song"
   xmlns:olp="http://openlyrics.info/namespace/2009/song"
   xmlns:html="http://www.w3.org/1999/xhtml"
   xmlns:openapi="https://openapis.org/omg/extension/1.0"
@@ -34,7 +33,6 @@
         <link rel="stylesheet" href="style.css"/>
         <style>
           body { font-family: Helvetica, Ubuntu, Roboto, Calibri, sans-serif; }
-          br { line-height: 0px; }
           header, section, footer { padding: 0.3rem 1rem; }
           header, footer { background-color: #cccccc; }
         </style>
@@ -48,6 +46,10 @@
 
   <xsl:template match="olp:author">
     <xsl:value-of select="text()"/>
+  </xsl:template>
+
+  <xsl:template match="olp:br">
+    <br/>
   </xsl:template>
 
   <xsl:template match="olp:lines">

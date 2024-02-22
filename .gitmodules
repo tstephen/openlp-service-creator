@@ -1,0 +1,3 @@
+[submodule "src/html/song-lyrics"]
+	path = src/html/song-lyrics
+	url = https://gitlab.com/corshambaptists/song-lyrics.git
