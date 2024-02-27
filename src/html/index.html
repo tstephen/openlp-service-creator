@@ -28,7 +28,7 @@
         <ul>
         {{#songs}}
           <li class="song" style="display: block">
-            <a href="/song-lyrics/{{ . }}" target="_blank">
+            <a href="./song-lyrics/{{ . }}" target="_blank">
               {{ . }}
             </a>
           </li>
@@ -38,7 +38,7 @@
     <script src="https://unpkg.com/mustache@latest"></script> 
     <script type="text/javascript">
       function renderList() {
-        fetch('/index.json')
+        fetch('index.json')
           .then(response => {
             if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
