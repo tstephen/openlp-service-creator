@@ -2,9 +2,12 @@ import os
 import json
 import sys
 
+EXCLUSIONS = [".git", ".gitignore", "README.md"]
 def main(directory_path: str):
     songs = [] #index(dir)
     songs.extend(os.listdir(directory_path))
+    songs = [song for song in songs
+             if song not in EXCLUSIONS]
     json_data = { "songs": sorted(songs) }
 
     file_path = "index.json"
